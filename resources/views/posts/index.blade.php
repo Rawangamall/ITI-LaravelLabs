@@ -14,28 +14,43 @@
             <th scope="col">Posted By</th>
             <th scope="col">Created At</th>
             <th scope="col">Actions</th>
+            <th scope="col">Delete</th>
+
         </tr>
         </thead>
         <tbody>
 
-        @foreach($posts as $post)
+        @foreach ($posts as $post)
             <tr>
-                <td>{{$post['id']}}</td>
-                <td>{{$post['title']}}</td>
-                <td>{{$post['posted_by']}}</td>
-                <td>{{$post['created_at']}}</td>
+            <td>{{ $post->id }}</td>
+            <td>{{ $post->title }}</td>
+                @if($post->user)
+                    <td>{{$post->user->name}}</td>
+                @else
+                    <td>Not Found</td>
+                @endif
+                <td>{{$post->created_at}}</td>
                 <td>
-                    <a href="/posts/{{$post['id']}}" class="btn btn-info">View</a>
-                                <!-- By alias Route-name  -->
+                    <a href="{{route('posts.show',$post['id'])}}" class="btn btn-info">View</a>
                     <a href="{{route('posts.edit',$post['id'])}}" class="btn btn-primary">Edit</a>
-                    <a href="{{route('posts.destroy',$post['id'])}}" class="btn btn-danger">Delete</a>
+                </td>
+                <td>
+                    <form method="POST" action="{{ route('posts.destroy', $post->id) }}">
+                        @csrf
+                        @method('DELETE')
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Confirm to delete this post')">Delete</button>
+                    </form>
                 </td>
             </tr>
 
         @endforeach
 
-
         </tbody>
     </table>
+    <div class="d-flex justify-content-center my-3">
+
+    {{ $posts->links() }}
+
+    </div>
 
 @endsection

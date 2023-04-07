@@ -1,22 +1,31 @@
 @extends('layouts.app')
-@section('title') Create @endsection
+@section('title') Edit @endsection
 
 @section('content')
-    <form action="{{route('posts.store')}}" method="POST">
+    <form action="{{ route('posts.update', $post->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+
         <div class="mb-3">
             <label class="form-label">Title</label>
-            <input  type="text" class="form-control" >
+
+            <input  type="text" name="title" value="{{$post->title}}" class="form-control" >
+
         </div>
         <div class="mb-3">
             <label  class="form-label">Description</label>
-            <textarea class="form-control"  rows="3"></textarea>
+            <textarea class="form-control" name="description" rows="3">{{$post->description}}</textarea>
         </div>
 
         <div class="mb-3">
             <label  class="form-label">Post Creator</label>
-            <select class="form-control">
-                <option value="1">Rawan</option>
-                <option value="2">Gamal</option>
+            <select class="form-control" name="user_id">
+            @foreach ($users as $user)
+            <!-- add attr selected to the value = the old one  -->
+            <option value="{{$user->id}}"{{ $post->user_id == $user->id ? 'selected' : '' }}>
+                {{ $user->name }}
+            </option>
+            @endforeach
             </select>
         </div>
 
