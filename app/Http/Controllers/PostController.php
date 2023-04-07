@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
+
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 
@@ -76,4 +78,16 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully');;    
     }
 
+
+    //comments
+    public function addComment($id, Request $request)
+    {
+        $data = $request->all();
+      //  dd($data);
+        $post = Post::find($id);
+        $post->comments()->create([
+            'comment' => $data['comment']
+        ]);
+        return redirect()->route('posts.show',['id'=>$request->id]);
+    }
 }
