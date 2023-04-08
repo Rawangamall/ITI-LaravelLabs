@@ -20,8 +20,12 @@
             Post Creator Info
         </div>
         <div class="card-body">
+        @if ($user)
             <h5 class="card-title">Creator Name: {{ $user->name }}</h5>
             <p class="card-text">Creator Email: {{ $user->email }}.</p>
+        @else 
+        <h5 class="card-title">Creator Name: Factory Database</h5>
+        @endif
         </div>
     </div>
     <div class="card mt-4">

@@ -14,7 +14,7 @@ class PostController extends Controller
     public function index()
     {
         Paginator::useBootstrapFive();
-        $posts = Post::paginate(4);
+        $posts = Post::paginate(6);
         return view('posts.index',[
             'posts' => $posts,
         ]);
