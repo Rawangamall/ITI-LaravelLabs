@@ -22,16 +22,14 @@ class PostController extends Controller
 
     public function show($id)
     {
-       $post=Post::find($id);
+      $post = Post::with('comments')->where('id', $id)->first();
        $user=User::find($post->user_id);
-       // dd($user);
-        return view('posts.show')->with(compact('user', 'post'));
+    return view('posts.show')->with(compact('user', 'post'));
     }
 
     public function create()
     {
         $users = User::all();
-
         return view('posts.create',[
             'users' => $users
         ]);
@@ -83,11 +81,34 @@ class PostController extends Controller
     public function addComment($id, Request $request)
     {
         $data = $request->all();
-      //  dd($data);
         $post = Post::find($id);
+         //  dd($post['id']);
+     
         $post->comments()->create([
-            'comment' => $data['comment']
+            'body' => $data['body'],
+            // 'user_id'=>1
         ]);
-        return redirect()->route('posts.show',['id'=>$request->id]);
+        return redirect()->back();
+    }
+
+    public function updateComment(Request $request, $id)
+    {
+        $comment = Comment::find($id);
+        if ($comment) {
+            $comment->body = $request->body;
+            
+        }
+        $comment->save();
+
+        return redirect()->route('posts.show', $comment->commentable_id);
+    }
+
+    public function deleteComment($id)
+    {
+        $comment = Comment::find($id);
+        if ($comment) {
+            $comment->delete();
+        }
+        return redirect()->back();
     }
 }
