@@ -32,8 +32,9 @@
         @foreach ($post->comments as $comment)  
             <div class="card-body">
                 <p class="card-text">{{ $comment->body }}
-                     <span class="test text-info"> {{ $comment->updated_at->diffForHumans() }}</span></p>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                     <span class="test text-muted"> {{ $comment->updated_at->diffForHumans() }}</span></p>
+                     <p class="text-secondary">Posted by: {{$comment->user->name}}</p>
+                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                     data-bs-target="#Modal_{{ $comment->id }}">
                     Edit
                 </button>
