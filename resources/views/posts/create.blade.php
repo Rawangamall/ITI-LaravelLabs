@@ -11,7 +11,7 @@
             </ul>
         </div>
     @endif
-<form action="{{route('posts.store')}}" method="POST">
+<form action="{{route('posts.store')}}" method="POST" enctype="multipart/form-data">
     @csrf
         <div class="mb-3">
             <label class="form-label">Title</label>
@@ -30,7 +30,10 @@
                 @endforeach
             </select>
         </div>
-
+        <div class="mb-3">
+            <label  class="form-label">Image</label>
+            <input type="file" name="image" class="form-control" >
+        </div>
        <button class="btn btn-success">Submit</button>
     </form>
 @endsection

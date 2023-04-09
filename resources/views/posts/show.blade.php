@@ -19,6 +19,10 @@
         <div class="card-body">
             <h5 class="card-title">Title: {{$post->title}}</h5>
             <p class="card-text">Description: {{$post->description}}</p>
+              {{dd($post)}}
+            @if($post->image)
+                <p><img src="{{$post->image}}"  width="150px" height="250px"></p>
+            @endif
             <p class="card-text">Created_at: {{\Carbon\Carbon::parse($post->created_at)->format('l, F j, Y') }}</p>
 
         </div>
