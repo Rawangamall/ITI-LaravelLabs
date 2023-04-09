@@ -26,7 +26,8 @@ class PostController extends Controller
     public function show($id)
     {
       $post = Post::with('comments')->where('id', $id)->first();
-       $user=User::find($post->user_id);
+    //  dd($post->image);
+      $user=User::find($post->user_id);
     return view('posts.show')->with(compact('user', 'post'));
     }
 
@@ -48,15 +49,16 @@ class PostController extends Controller
             $fileExtension = $file->getClientOriginalExtension();
             $storedFileName = Storage::disk('public')->putFileAs('images', $file, $fileName);    
               }
-            dd($storedFileName);
+          //  dd($fileName);
 
             Post::create([
             'title' => $data['title'],
             'description' => $data['description'],
-            'user_id' => $data['post_creator']
+            'user_id' => $data['post_creator'],
+            'image' => $fileName
            ]);
 
-           return to_route('posts.index');
+           return redirect()->route('posts.index');
     }
 
     public function edit($id)
