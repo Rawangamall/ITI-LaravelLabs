@@ -7,6 +7,8 @@ use App\Models\Comment;
 
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\StoreCommentRequest;
 
 class PostController extends Controller
 {
@@ -14,7 +16,7 @@ class PostController extends Controller
     public function index()
     {
         Paginator::useBootstrapFive();
-        $posts = Post::paginate(6);
+         $posts = Post::paginate(6);
         return view('posts.index',[
             'posts' => $posts,
         ]);
@@ -35,8 +37,9 @@ class PostController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
+
         $data = $request->all();
 
            Post::create([
@@ -54,7 +57,7 @@ class PostController extends Controller
          return view('posts.edit')->with(compact('users', 'post'));
     }
 
-    public function update(Request $request, $id)
+    public function update(StorePostRequest $request, $id)
     {
         $post = Post::find($id);
         if ($post){
@@ -78,20 +81,18 @@ class PostController extends Controller
 
 
     //comments
-    public function addComment($id, Request $request)
+    public function addComment($id, StoreCommentRequest $request)
     {
         $data = $request->all();
         $post = Post::find($id);
-         //  dd($post['id']);
      
         $post->comments()->create([
             'body' => $data['body'],
-            // 'user_id'=>1
         ]);
         return redirect()->back();
     }
 
-    public function updateComment(Request $request, $id)
+    public function updateComment(StoreCommentRequest $request, $id)
     {
         $comment = Comment::find($id);
         if ($comment) {

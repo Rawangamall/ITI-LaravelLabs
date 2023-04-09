@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::middleware(['auth'])->group(function () {
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
@@ -30,3 +30,8 @@ Route::put('/{post}/comments', [PostController::class, 'updateComment'])->name('
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 Route::delete('/{post}/comments', [PostController::class, 'deleteComment'])->name('posts.deleteComment');
 
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
